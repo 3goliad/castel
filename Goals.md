@@ -4,8 +4,10 @@ At time of writing *none* of these goals have been stabilized. The scope of this
 
 
 ## Language Design Goals
+### all goals are secondary to ease of use and microscripting
 
 - the unnamed language will not expect familiarity with established programming techniques or theoretical computer science knowledge, only basic computing knowledge
+    - ex:c-style for loops
 - the unnamed language will be complex enough to reconstruct the most advanced shell command language programs
 - the unnamed language will be simple enough to support extensive static analysis
 - a novice user of the unnamed language will be able to strongly reason about the behavior of programs of moderate size without extensive study
