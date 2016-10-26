@@ -1,4 +1,4 @@
-# Design Notes on an Unnamed Language
+# Design Notes on Castel
 truly an effort
 so far described as "a tinkertoy version of a grad project"
 tentatively picking castel for a name
