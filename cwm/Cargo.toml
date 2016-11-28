@@ -4,3 +4,5 @@ version = "0.1.0"
 authors = ["Javier Maldonado <3goliad@gmail.com>"]
 
 [dependencies]
+clap = "2.19.0"
+log = "0.3.6"
