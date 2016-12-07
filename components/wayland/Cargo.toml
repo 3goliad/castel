@@ -1,0 +1,7 @@
+[package]
+name = "rwlc"
+version = "0.1.0"
+authors = ["Javier Maldonado <3goliad@gmail.com>"]
+
+[dependencies]
+log = "0.3"

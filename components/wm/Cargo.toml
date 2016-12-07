@@ -1,0 +1,10 @@
+[package]
+name = "cwm"
+version = "0.1.0"
+authors = ["Javier Maldonado <3goliad@gmail.com>"]
+
+[dependencies]
+nix = "0.7"
+clap = "2.19.0"
+log = "0.3"
+env_logger = "0.3"
