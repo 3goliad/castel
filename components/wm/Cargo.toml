@@ -1,5 +1,5 @@
 [package]
-name = "cwm"
+name = "wm"
 version = "0.1.0"
 authors = ["Javier Maldonado <3goliad@gmail.com>"]
 
