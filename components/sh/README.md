@@ -1,0 +1,2 @@
+# rash
+A minimal shell
