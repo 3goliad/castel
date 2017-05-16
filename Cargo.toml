@@ -2,5 +2,12 @@
 name = "castel"
 version = "0.1.0"
 authors = ["Javier Maldonado <3goliad@gmail.com>"]
+build = "build.rs"
 
 [dependencies]
+glutin = "*"
+rusttype = "*"
+libc = "*"
+
+[build-dependencies]
+gl_generator = "*"
