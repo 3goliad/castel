@@ -8,6 +8,9 @@ build = "build.rs"
 glutin = "*"
 rusttype = "*"
 libc = "*"
+diesel = { version = "*", features = ["sqlite"] }
+diesel_codegen = { version = "*", features = ["sqlite"] }
+dotenv = "*"
 
 [build-dependencies]
 gl_generator = "*"
