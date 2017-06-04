@@ -5,6 +5,7 @@ authors = ["Javier Maldonado <3goliad@gmail.com>"]
 build = "build.rs"
 
 [dependencies]
+piston_window = "*"
 glutin = "*"
 libc = "*"
 diesel = { version = "*", features = ["sqlite"] }
