@@ -6,11 +6,11 @@ build = "build.rs"
 
 [dependencies]
 glutin = "*"
-rusttype = "*"
 libc = "*"
 diesel = { version = "*", features = ["sqlite"] }
 diesel_codegen = { version = "*", features = ["sqlite"] }
 dotenv = "*"
+freetype-rs = "*"
 
 [build-dependencies]
 gl_generator = "*"
