@@ -4,7 +4,13 @@ version = "0.1.0"
 authors = ["Javier Maldonado <3goliad@gmail.com>"]
 
 [dependencies]
-piston_window = "*"
+log = "0.3"
+clap = "2.25"
+stderrlog = "0.2.2"
+piston_window = "0.67"
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
+
+[dependencies.pistoncore-sdl2_window]
+    git = "https://github.com/PistonDevelopers/sdl2_window"
