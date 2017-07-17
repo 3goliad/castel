@@ -1,0 +1,22 @@
+digraph G {
+	graph [layout=dot rankdir=LR]
+  external_events [shape=cylinder label="External Events"]
+  subgraph cluster_store {
+    label = "Datastore"
+    node [shape=folder]
+    Documents
+    viewdoc [label="View Document"]
+  }
+  subgraph cluster_handlers {
+    label = "Handlers"
+    node [shape=box]
+    events [label="Event hooks"]
+    changes [label="Change hooks"]
+    views [label="View hooks"]
+    events -> changes
+  }
+  external_events -> events
+  changes -> Documents
+  viewdoc -> views
+  views -> Display
+}

@@ -7,10 +7,13 @@ authors = ["Javier Maldonado <3goliad@gmail.com>"]
 log = "0.3"
 clap = "2.25"
 stderrlog = "0.2.2"
-piston_window = "0.67"
+piston = "0.32.0"
+piston2d-graphics = "0.21.1"
+piston2d-gfx_graphics = "0.42.0"
+pistoncore-sdl2_window = "0.43.0"
+gfx = "0.16.1"
+gfx_device_gl = "0.14.1"
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
-
-[dependencies.pistoncore-sdl2_window]
-    git = "https://github.com/PistonDevelopers/sdl2_window"
+error-chain = "0.10"
