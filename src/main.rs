@@ -1,5 +1,4 @@
 #![recursion_limit = "1024"]
-extern crate clap;
 extern crate stderrlog;
 extern crate piston;
 extern crate graphics;
@@ -10,6 +9,8 @@ extern crate sdl2_window;
 extern crate serde;
 extern crate serde_json;
 #[macro_use]
+extern crate clap;
+#[macro_use]
 extern crate error_chain;
 #[macro_use]
 extern crate log;
@@ -19,47 +20,64 @@ extern crate serde_derive;
 mod events;
 mod handlers;
 mod store;
+mod view;
 
 mod errors {
-    use std::fmt;
     use log;
+    use serde_json;
 
     error_chain!{
         foreign_links {
+            SerdeJson(serde_json::Error);
+            Io(::std::io::Error);
             SetLogger(log::SetLoggerError);
         }
     }
 }
-use std::path::Path;
 
-use clap::{Arg, App};
+use std::path::Path;
+use std::fs::File;
+use std::io::prelude::*;
+
 use sdl2_window::{Sdl2Window, OpenGL};
 use gfx::traits::*;
 use gfx::memory::Typed;
 use gfx::format::{DepthStencil, Formatted, Srgba8};
-use piston::window::{OpenGLWindow, Window, WindowSettings, Size};
+use piston::window::{OpenGLWindow, Window, WindowSettings};
 use piston::event_loop::{Events, EventSettings, EventLoop};
 use gfx_graphics::{Gfx2d, GlyphCache, TextureSettings};
 use graphics::*;
 
 use errors::*;
 use store::Store;
-use handlers::Screen;
+use view::Screen;
 
 quick_main!(run);
 
 fn run() -> Result<()> {
-    let matches = App::new("castel")
-        .version("alpha")
-        .arg(Arg::with_name("v").short("v").multiple(true))
-        .get_matches();
+    let matches = clap_app!(castel =>
+                            (version: "alpha")
+                            (@arg verbose: -v... "Log more or less")
+                            (@arg INPUT: +required "File to edit")
+                           ).get_matches();
 
     stderrlog::new()
         .timestamp(stderrlog::Timestamp::Second)
         .verbosity(matches.occurrences_of("v") as usize)
         .init()?;
 
+    let mut input = String::new();
+
+    if let Some(path) = matches.value_of("INPUT") {
+        let mut file = File::open(path)?;
+        file.read_to_string(&mut input)?;
+    } else {
+        bail!("Required argument not given");
+    }
+
     let mut data = Store::new();
+
+    data.insert(&input)?;
 
     let opengl = OpenGL::V3_2;
     let samples = 4;
@@ -101,7 +119,7 @@ fn run() -> Result<()> {
         use piston::input::Input::*;
         match e {
             Render(args) => {
-                let screen = Screen::new(data.view(), window.draw_size());
+                let screen = Screen::new(window.draw_size());
                 g2d.draw(
                     &mut encoder,
                     &output_color,
@@ -131,9 +149,15 @@ fn run() -> Result<()> {
                 break;
             }
             _ => {
-                data.apply(handlers::input(&e));
-                while let Some(new_change) = data.changes.next() {
-                    data.apply(handlers::change(new_change));
+                if let Some(fact) = handlers::input(&e) {
+                    data.apply(fact);
+                }
+                while let Some(changes) = data.take_changes() {
+                    for new_change in changes {
+                        if let Some(fact) = handlers::change(new_change) {
+                            data.apply(fact);
+                        }
+                    }
                 }
             }
 

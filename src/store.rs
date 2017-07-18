@@ -1,40 +1,44 @@
+use serde_json;
 use errors::*;
 use events::*;
 
-enum Datum {
-    String,
-}
-
-pub type Viewdoc = Vec<usize>;
-
-pub struct Changes;
-
-impl Changes {
-    pub fn next(&mut self) -> Option<Change> {
-        unimplemented!();
-    }
+#[derive(Clone, Serialize, Deserialize)]
+pub struct Document {
+    title: String,
+    body: Vec<String>,
 }
 
 pub struct Store {
-    docs: Vec<Datum>,
-    view: Viewdoc,
-    pub changes: Changes,
+    data: Vec<Document>,
+    changes: Option<Vec<Change>>,
 }
 
 impl Store {
     pub fn new() -> Self {
         Self {
-            docs: Vec::<Datum>::new(),
-            view: Viewdoc::new(),
-            changes: Changes {},
+            data: Vec::<Document>::new(),
+            changes: None,
         }
     }
 
-    pub fn apply(&mut self, f: Fact) {
-        unimplemented!();
+    pub fn insert(&mut self, i: &str) -> Result<()> {
+        let doc: Document = serde_json::from_str(i)?;
+        self.data.push(doc);
+        Ok(())
     }
 
-    pub fn view(&self) -> &Viewdoc {
-        unimplemented!();
+    pub fn take_changes(&mut self) -> Option<Vec<Change>> {
+        self.changes.take()
+    }
+
+    pub fn snap(&self) -> Box<[Document]> {
+        self.data.to_vec().into_boxed_slice()
+    }
+
+    pub fn apply(&mut self, f: Fact) {
+        use self::Fact::*;
+        match f {
+            Delete => unimplemented!(),
+        }
     }
 }

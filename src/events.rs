@@ -2,6 +2,11 @@
 
 // trait Event;
 
-pub struct Change;
+pub enum Change {
+    Insertion,
+}
+
 // some fact has changed
-pub struct Fact;
+pub enum Fact {
+    Delete,
+}
