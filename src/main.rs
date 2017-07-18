@@ -8,6 +8,7 @@ extern crate gfx_device_gl;
 extern crate sdl2_window;
 extern crate serde;
 extern crate serde_json;
+extern crate mentat;
 #[macro_use]
 extern crate clap;
 #[macro_use]
@@ -74,6 +75,8 @@ fn run() -> Result<()> {
     } else {
         bail!("Required argument not given");
     }
+
+    let conn = mentat::get_connection();
 
     let mut data = Store::new();
 
